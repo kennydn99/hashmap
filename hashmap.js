@@ -88,4 +88,60 @@ export default class HashMap {
 
     return false;
   }
+
+  length() {
+    let num = 0;
+    for (let i = 0; i < this.size; i++) {
+      num += this.buckets[i].length;
+    }
+    return num;
+  }
+
+  clear() {
+    for (let i = 0; i < this.size; i++) {
+      this.buckets[i] = [];
+    }
+  }
+
+  keys() {
+    let keysArray = [];
+    for (let i = 0; i < this.size; i++) {
+      const bucket = this.buckets[i];
+      if (bucket.length > 0) {
+        for (let j = 0; j < bucket.length; j++) {
+          const [storedKey] = bucket[j];
+          keysArray.push(storedKey);
+        }
+      }
+    }
+    return keysArray;
+  }
+
+  values() {
+    let valArray = [];
+    for (let i = 0; i < this.size; i++) {
+      const bucket = this.buckets[i];
+      if (bucket.length > 0) {
+        for (let j = 0; j < bucket.length; j++) {
+          const [, storedValue] = bucket[j];
+          valArray.push(storedValue);
+        }
+      }
+    }
+    return valArray;
+  }
+
+  entries() {
+    let entriesArray = [];
+    for (let i = 0; i < this.size; i++) {
+      const bucket = this.buckets[i];
+      if (bucket.length > 0) {
+        for (let j = 0; j < bucket.length; j++) {
+          const [storedKey, storedValue] = bucket[j];
+          entriesArray.push([storedKey, storedValue]);
+        }
+      }
+    }
+    return entriesArray;
+  }
 }
