@@ -47,4 +47,45 @@ export default class HashMap {
 
     return null;
   }
+
+  has(key) {
+    const hashCode = this.hash(key);
+
+    if (hashCode < 0 || hashCode >= this.buckets.length) {
+      throw new Error("Trying to access index out of bound");
+    }
+
+    const bucket = this.buckets[hashCode];
+
+    if (bucket) {
+      for (let i = 0; i < bucket.length; i++) {
+        const [storedKey] = bucket[i];
+        if (key === storedKey) return true;
+      }
+    }
+
+    return false;
+  }
+
+  remove(key) {
+    if (this.has(key)) {
+      const hashCode = this.hash(key);
+
+      if (hashCode < 0 || hashCode >= this.buckets.length) {
+        throw new Error("Trying to access index out of bound");
+      }
+
+      const bucket = this.buckets[hashCode];
+
+      for (let i = 0; i < bucket.length; i++) {
+        const [storedKey, storedValue] = bucket[i];
+        if (key === storedKey) {
+          this.buckets[hashCode].splice(i, 1);
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
 }
